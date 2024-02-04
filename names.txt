@@ -15,7 +15,7 @@ Krisz
 MatMart
 Norcda Childa
 GeoBlitzy
-Vit12
+vit12
 Knobbelboy
 RedHuseey
 Adya
@@ -96,3 +96,4 @@ MathGeniusGD
 paqoe
 Zobros
 zVision
+Electrify
