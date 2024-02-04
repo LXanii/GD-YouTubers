@@ -7,7 +7,7 @@ Test
 abc
 NIC
 Lation
-TriDeapthBear
+trideapthbear
 TheRealSdslayer
 Kapinapi
 ThePigPigGamer
@@ -93,3 +93,6 @@ kawaqii
 ItzKiba
 Victurkey
 MathGeniusGD
+paqoe
+Zobros
+zVision
