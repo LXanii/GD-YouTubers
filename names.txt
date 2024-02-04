@@ -23,7 +23,7 @@ GhostPower13
 thehorizongd
 Michigun
 KaiGuy
-LSunix
+lSunix
 KrmaL
 IcEDCave
 swiborg
@@ -92,3 +92,4 @@ HJfod
 kawaqii
 ItzKiba
 Victurkey
+MathGeniusGD
