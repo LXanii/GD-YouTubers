@@ -54,7 +54,7 @@ CCSprite * icon;
 				m_fields->icon->setScale(m_usernameLabel->getScale() - 0.1);
 				m_fields->icon->setPosition(first_letter->convertToWorldSpace(getPosition()));
 				m_fields->icon->setPosition({m_fields->icon->getPositionX() - 11.f, m_fields->icon->getPositionY() + 11.f});
-				addChild(m_fields->icon);
+				static_cast<CCLayer*>(this->getChildren()->objectAtIndex(0))->addChild(m_fields->icon);
 			}
 		}
 	} 
