@@ -7,9 +7,10 @@ using namespace geode::prelude;
 bool downloaded = false;
 std::set<std::string> YouTubers;
 
-class $modify(ProfilePage) {
+class $modify(YouTuberAlert, ProfilePage) {
 
-CCSprite * icon;
+CCSprite * badge;
+CCMenuItemSpriteExtra* icon;
 
 	void setupPageInfo(gd::string name, char const* chars) {
 		ProfilePage::setupPageInfo(name,chars);
@@ -50,12 +51,26 @@ CCSprite * icon;
 			if (lower_names == lower_player_name) {
 				log::info("YouTuber Found! {}", names);
 				CCNode* first_letter = reinterpret_cast<CCNode*>(m_usernameLabel->getChildren()->objectAtIndex(0));
-				m_fields->icon = CCSprite::create("youtuber.png"_spr);
-				m_fields->icon->setScale(m_usernameLabel->getScale() - 0.1);
+				CCMenu* icon_menu = CCMenu::create();
+				icon_menu->setPosition({0,0});
+
+				m_fields->badge = CCSprite::create("youtuber.png"_spr);
+				m_fields->icon = CCMenuItemSpriteExtra::create(m_fields->badge, this, menu_selector(YouTuberAlert::found_youtube));
+				m_fields->icon->setScale(m_usernameLabel->getScale() + 0.2f);
 				m_fields->icon->setPosition(first_letter->convertToWorldSpace(getPosition()));
-				m_fields->icon->setPosition({m_fields->icon->getPositionX() - 11.f, m_fields->icon->getPositionY() + 11.f});
-				static_cast<CCLayer*>(this->getChildren()->objectAtIndex(0))->addChild(m_fields->icon);
+				m_fields->icon->setPosition({m_fields->icon->getPositionX() - 13.f, m_fields->icon->getPositionY() + 10.f});
+
+				CCLayer* layer = static_cast<CCLayer*>(getChildren()->objectAtIndex(0));
+
+				icon_menu->addChild(m_fields->icon);
+				layer->addChild(icon_menu);
 			}
 		}
-	} 
+	}
+
+	void found_youtube(CCObject*) {
+		FLAlertLayer::create("Youtuber Found!","This user is a <cr>prominent member</c> of the <cy>Geometry Dash</c> Community!","OK")->show();
+		m_fields->icon->setScale(m_usernameLabel->getScale() + 0.2f);
+	}
+
 };
