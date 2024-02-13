@@ -1,7 +1,6 @@
 # YouTubers Mod
 
-A simple mod that gives YouTubers a badge in Geometry Dash to help identify their profiles!
+This mod gives YouTubers & popular figures a badge in Geometry Dash to help identify their profiles!
 
-![Untitled](https://github.com/LXanii/GD-YouTubers/assets/73562093/ffbccd2a-12fe-468a-a6a2-66a300e89c07)
-![Untitled](https://github.com/LXanii/GD-YouTubers/assets/73562093/b5a2abe5-212e-4955-baa6-2a774d0c4b57)
-![Untitled](https://github.com/LXanii/GD-YouTubers/assets/73562093/f9f2290e-8175-4f92-a184-ad920c91a316)
+![YouTube_Badge](https://github.com/LXanii/GD-YouTubers/assets/73562093/6c3334b2-85d6-49fa-906c-86f2309717e6)
+![YouTube_Badge](https://github.com/LXanii/GD-YouTubers/assets/73562093/ab603f7a-5236-4ed2-802f-25d2bec4e601)
