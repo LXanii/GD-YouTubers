@@ -118,3 +118,7 @@ komp
 giron
 juniper
 viprin
+danolex
+nexus
+evw
+robtop
