@@ -124,3 +124,5 @@ evw
 robtop
 jonathangd
 jiflol
+vortrox
+mrspaghetti
