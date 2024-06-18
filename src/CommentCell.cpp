@@ -9,33 +9,43 @@ using namespace geode::prelude;
 
 bool downloaded = false;
 std::set<std::string> YouTubers;
+EventListener<web::WebTask> m_listener;
 
 void download_list() {
-	if (!downloaded) {
-		auto res = web::fetch("https://raw.githubusercontent.com/LXanii/GD-YouTubers/main/names.txt");
-		if (!res) {
-			log::info("Failed to fetch file from GitHub.");
-		}
-		else {
-			auto data = res.value();
 	
-			std::istringstream iss(data);
-			std::string temp_string;
-			log::info("Downloaded YouTuber List");
+	if (!downloaded) {
 
-			while (iss >> temp_string) {
-				YouTubers.insert(temp_string);
-			}
-			downloaded = true;
+		m_listener.bind([] (web::WebTask::Event* e) {
+            if (web::WebResponse* res = e->getValue()) {
+                log::info("{}", res->string().unwrapOr("eee")); // wowzers found whats printing
+				auto data = res->string().unwrapOr("eee");
+		
+				std::istringstream iss(data);
+				std::string temp_string;
+				log::info("Downloaded YouTuber List");
+
+				while (iss >> temp_string) {
+					YouTubers.insert(temp_string);
+				}
+				downloaded = true;
+
+            } else if (e->isCancelled()) {
+                log::info("Failed to fetch file from GitHub.");
+            }
+        });
+
+        auto req = web::WebRequest();
+        m_listener.setFilter(req.get("https://raw.githubusercontent.com/LXanii/GD-YouTubers/main/names.txt"));
 		}
 	}
-}
 
 class $modify(CommentCell) {
 
-float badge_x_pos = 0.f;
-CCSprite* badge;
-CCSprite* badge_mod;
+	struct Fields {
+		float badge_x_pos = 0.f;
+		CCSprite* badge;
+		CCSprite* badge_mod;
+	};
 
 	void loadFromComment(GJComment* comment) {
 
@@ -48,8 +58,6 @@ CCSprite* badge_mod;
 		CCScene* scene = director->getRunningScene();
 		
 		std::string username = m_comment->m_userName;
-
-		download_list();
 
 		for (const auto& names : YouTubers) {
 			std::string lower_names(names.begin(), names.end());
@@ -77,20 +85,15 @@ CCSprite* badge_mod;
 
 							MultilineBitmapFont* text_holder = static_cast<MultilineBitmapFont*>(player_comment_big_area->getChildren()->objectAtIndex(0));
 
-							if (static_cast<CCNode*>(scene->getChildren()->objectAtIndex(scene->getChildrenCount() - 1))->getID() != "ProfilePage") {
+							for (int i = 0; i < text_holder->getChildrenCount(); i++) {
 
-								for (int i = 0; i < text_holder->getChildrenCount(); i++) {
-
-									CCLabelBMFont* player_comment_big = static_cast<CCLabelBMFont*>(text_holder->getChildren()->objectAtIndex(i));
-									player_comment_big->setColor({ 255, 180, 185 });
-
-								}
-								
+								CCLabelBMFont* player_comment_big = static_cast<CCLabelBMFont*>(text_holder->getChildren()->objectAtIndex(i));
+								if (player_comment_big->getColor() == ccColor3B{255,255,255}) player_comment_big->setColor({ 255, 180, 185 });
 							}
 
 						}
 						else {
-							player_comment_small->setColor({ 255, 180, 185 });
+							if (player_comment_small->getColor() == ccColor3B{255,255,255}) player_comment_small->setColor({ 255, 180, 185 });
 						}
 
 					}
@@ -110,9 +113,7 @@ CCSprite* badge_mod;
 							m_fields->badge->setPosition({m_fields->badge->getPositionX() + 8.425f + m_fields->badge_x_pos, m_fields->badge->getPositionY() - 8.5f});
 						}
 						
-						if (static_cast<CCNode*>(scene->getChildren()->objectAtIndex(scene->getChildrenCount() - 1))->getID() != "ProfilePage") {
-							this->addChild(m_fields->badge);
-						}
+						this->addChild(m_fields->badge);
 
 						if (layer->getChildByID("percentage-label")) {
 

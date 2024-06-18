@@ -1,3 +1,10 @@
+# Version 1.0.5
+
+- Added 2.206/64bit Compatibility
+- Fixed bug with comment color overriding level owner color
+- Fixed bug where yt badge would duplicate on profile refresh
+- Removed mods that cause conflictions
+
 # Version 1.0.4
 
 - Added Badge to comments
