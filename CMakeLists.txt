@@ -10,10 +10,6 @@ file(GLOB_RECURSE SOURCES
     src/*.cpp
 )
 
-if(WIN32)
-    set(CMAKE_GENERATOR_PLATFORM x64)
-endif()
-
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 if (NOT DEFINED ENV{GEODE_SDK})
