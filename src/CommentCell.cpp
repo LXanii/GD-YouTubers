@@ -17,17 +17,16 @@ void download_list() {
 
 		m_listener.bind([] (web::WebTask::Event* e) {
             if (web::WebResponse* res = e->getValue()) {
-                log::info("{}", res->string().unwrapOr("eee")); // wowzers found whats printing
-				auto data = res->string().unwrapOr("eee");
-		
+				auto data = res->string().unwrapOr("eee"); // wowzers found whats printing
+				log::debug("Attempting to download YouTuber List..");
 				std::istringstream iss(data);
 				std::string temp_string;
-				log::info("Downloaded YouTuber List");
 
 				while (iss >> temp_string) {
 					YouTubers.insert(temp_string);
 				}
 				downloaded = true;
+				log::debug("Download Complete [{} Found].", YouTubers.size());
 
             } else if (e->isCancelled()) {
                 log::info("Failed to fetch file from GitHub.");

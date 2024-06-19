@@ -1,3 +1,7 @@
+# Version 1.0.6
+
+- Cleaned up log spam
+
 # Version 1.0.5
 
 - Added 2.206/64bit Compatibility

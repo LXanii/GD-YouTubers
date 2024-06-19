@@ -13,7 +13,6 @@ class $modify(MenuLayer) {
 	bool init() {
 		bool result = MenuLayer::init();
 		if (!downloaded) download_list();
-		log::debug("Downloading YouTuber List");
 		return result;
 	}
 };
@@ -47,7 +46,6 @@ class $modify(YouTuberAlert, ProfilePage) {
 			}
 			lower_player_name.erase(remove_if(lower_player_name.begin(), lower_player_name.end(), isspace), lower_player_name.end());
 			if (lower_names == lower_player_name) {
-				log::info("YouTuber Found! {}", names);
 				CCNode* first_letter = reinterpret_cast<CCNode*>(m_usernameLabel->getChildren()->objectAtIndex(0));
 
 				CCMenu* icon_menu = CCMenu::create();
