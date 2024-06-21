@@ -4,16 +4,40 @@
 #include <cctype>
 
 #include "CommentCell.h"
+#include "YouTuberLayer.hpp"
 
 extern bool downloaded;
 
 using namespace geode::prelude;
 
-class $modify(MenuLayer) {
+class $modify(YTListLayer, MenuLayer) {
+
+	struct Fields {
+		CCSprite* ytBtnSprite;
+		CCMenuItemSpriteExtra* ytBtn;
+		YouTuberLayer* yt;
+	};
+
 	bool init() {
 		bool result = MenuLayer::init();
 		if (!downloaded) download_list();
+
+		auto rightMenu = this->getChildByID("right-side-menu");
+
+		m_fields->ytBtnSprite = CCSprite::create("yt-btn.png"_spr);
+		m_fields->ytBtnSprite->setScale(0.35);
+		m_fields->ytBtn = CCMenuItemSpriteExtra::create(m_fields->ytBtnSprite, this, menu_selector(YTListLayer::openList));
+
+		rightMenu->addChild(m_fields->ytBtn);
+		rightMenu->updateLayout(false);
+
 		return result;
+	}
+
+	void openList(CCObject*) {
+		auto screenSize = CCDirector::sharedDirector()->getWinSize();
+		YouTuberLayer::create()->show();
+		log::info("list");
 	}
 };
 
