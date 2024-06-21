@@ -28,7 +28,7 @@ class $modify(YTListLayer, MenuLayer) {
 		m_fields->ytBtnSprite->setScale(0.35);
 		m_fields->ytBtn = CCMenuItemSpriteExtra::create(m_fields->ytBtnSprite, this, menu_selector(YTListLayer::openList));
 
-		rightMenu->addChild(m_fields->ytBtn);
+		rightMenu->addChild(m_fields->ytBtn, -1);
 		rightMenu->updateLayout(false);
 
 		return result;
@@ -37,7 +37,6 @@ class $modify(YTListLayer, MenuLayer) {
 	void openList(CCObject*) {
 		auto screenSize = CCDirector::sharedDirector()->getWinSize();
 		YouTuberLayer::create()->show();
-		log::info("list");
 	}
 };
 
