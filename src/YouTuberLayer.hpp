@@ -29,7 +29,7 @@ bool YouTuberLayer::setup() {
     CCScale9Sprite* namesBG = CCScale9Sprite::create("square02_001-uhd.png");
     namesBG->setContentSize(CCSize(227, 212));
 
-    ScrollLayer* ytNames = ScrollLayer::create(CCSize({304, 212}), true, true);
+    ScrollLayer* ytNames = ScrollLayer::create({304, 212}, true, true);
 
     ytNames->m_contentLayer->setLayout(
         ColumnLayout::create()
