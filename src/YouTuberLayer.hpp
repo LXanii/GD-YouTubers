@@ -40,7 +40,7 @@ bool YouTuberLayer::setup() {
             ->setAutoScale(false)
     );
 
-    ytNames->setPosition({176, 50});
+    ytNames->setPosition({46, 27});
     for (const auto& GHNames : YouTubers) {
         CCLabelBMFont* name = CCLabelBMFont::create(GHNames.c_str(), "bigFont.fnt");
         name->setScale(0.75);
@@ -51,9 +51,9 @@ bool YouTuberLayer::setup() {
 
     ytNames->m_contentLayer->updateLayout();
 
-    ytText->setPosition({screenSize.width / 2, screenSize.height / 2 + 120});
-    infoText->setPosition({screenSize.width / 2, screenSize.height / 2 - 120});
-    namesBG->setPosition({screenSize.width / 2, screenSize.height / 2 - 5});
+    ytText->setPosition({screenSize.width / 2 - 130, screenSize.height / 2 + 97}); // weird placements cuz of initAnchored thanks
+    infoText->setPosition({screenSize.width / 2 - 130, screenSize.height / 2 - 143});
+    namesBG->setPosition({screenSize.width / 2 - 130, screenSize.height / 2 - 27});
     namesBG->setOpacity(80);
 
     mainLayer->addChild(ytText);
@@ -66,7 +66,7 @@ bool YouTuberLayer::setup() {
 YouTuberLayer* YouTuberLayer::create() {
     auto ret = new YouTuberLayer;
     auto screenSize = CCDirector::sharedDirector()->getWinSize();
-    if (ret->init(POPUP_WIDTH, POPUP_HEIGHT)) {
+    if (ret->initAnchored(POPUP_WIDTH, POPUP_HEIGHT)) {
         ret->autorelease();
         return ret;
     }
