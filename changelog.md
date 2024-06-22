@@ -1,3 +1,9 @@
+# Version 1.1.0
+
+- Added brand new YouTubers Menu
+- Clean ups and crash fixes
+- Reworked how badge is added to profiles, (added to username menu for nerds)
+
 # Version 1.0.6
 
 - Cleaned up log spam
