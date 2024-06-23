@@ -28,7 +28,7 @@ class $modify(YTListLayer, MenuLayer) {
 		m_fields->ytBtnSprite->setScale(0.35);
 		m_fields->ytBtn = CCMenuItemSpriteExtra::create(m_fields->ytBtnSprite, this, menu_selector(YTListLayer::openList));
 
-		#if defined(GEODE_IS_WINDOWS)
+		#if !defined(GEODE_IS_ANDROID)
 			rightMenu->addChild(m_fields->ytBtn, -1);
 			rightMenu->updateLayout(false);
 		#endif
