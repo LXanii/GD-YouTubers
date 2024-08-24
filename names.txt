@@ -146,7 +146,7 @@ Luqualizer
 Skullo
 MetalFace221
 MetaManZ
-LuigiDB
+LeslieDB
 SPRITEGS
 RpgRaketti
 DoSh7t
@@ -190,3 +190,5 @@ xSmokes
 Baeru
 GDKurumi
 mix991
+Acrellux
+NothingIsScary0
