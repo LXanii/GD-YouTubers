@@ -48,6 +48,7 @@ class $modify(YouTuberAlert, ProfilePage) {
 		CCSprite * badge;
 		CCMenuItemSpriteExtra* icon;
 		bool is_mod;
+		std::string player_name;
 	};
 
 	void setupPageInfo(gd::string name, char const* chars) {
@@ -58,32 +59,37 @@ class $modify(YouTuberAlert, ProfilePage) {
 
 		download_list();
 
-		std::string player_name = m_usernameLabel->getString();
+		m_fields->player_name = m_usernameLabel->getString();
+		addBadge("yt");
+	}
 
-		for (const auto& names : YouTubers) {
-			std::string lower_names(names.begin(), names.end());
-			std::string lower_player_name(player_name.begin(), player_name.end());
-			for (char &c : lower_names) {
-				c = std::tolower(c);
-			}
-			for (char &c : player_name) {
-				c = std::tolower(c);
-			}
-			lower_player_name.erase(remove_if(lower_player_name.begin(), lower_player_name.end(), isspace), lower_player_name.end());
-			if (lower_names == lower_player_name) {
-				auto mainLayer = static_cast<CCLayer*>(this->getChildren()->objectAtIndex(0));
-				auto usernameMenu = mainLayer->getChildByID("username-menu");
+	void addBadge(std::string badge) {
+		if (badge == "yt") {
+			for (const auto& names : YouTubers) {
+				std::string lower_names(names.begin(), names.end());
+				std::string lower_player_name(m_fields->player_name.begin(), m_fields->player_name.end());
+				for (char &c : lower_names) {
+					c = std::tolower(c);
+				}
+				for (char &c : m_fields->player_name) {
+					c = std::tolower(c);
+				}
+				lower_player_name.erase(remove_if(lower_player_name.begin(), lower_player_name.end(), isspace), lower_player_name.end());
+				if (lower_names == lower_player_name) {
+					auto mainLayer = static_cast<CCLayer*>(this->getChildren()->objectAtIndex(0));
+					auto usernameMenu = mainLayer->getChildByID("username-menu");
 
-				m_fields->badge = CCSprite::create("youtuber.png"_spr);
-				m_fields->badge->setScale(0.95);
-				
-				m_fields->icon = CCMenuItemSpriteExtra::create(m_fields->badge, this, menu_selector(YouTuberAlert::found_youtube));
-				m_fields->icon->setID("xanii.youtubers/YouTuber-Badge");
+					m_fields->badge = CCSprite::create("youtuber.png"_spr);
+					m_fields->badge->setScale(0.95);
+					
+					m_fields->icon = CCMenuItemSpriteExtra::create(m_fields->badge, this, menu_selector(YouTuberAlert::found_youtube));
+					m_fields->icon->setID("xanii.youtubers/YouTuber-Badge");
 
-				if (!static_cast<CCMenu*>(usernameMenu->getChildByID("xanii.youtubers/YouTuber-Badge"))) {
-					usernameMenu->addChild(m_fields->icon);
-					usernameMenu->updateLayout();
-					m_fields->icon->setPositionY(m_fields->icon->getPositionY() - 1);
+					if (!static_cast<CCMenu*>(usernameMenu->getChildByID("xanii.youtubers/YouTuber-Badge"))) {
+						usernameMenu->addChild(m_fields->icon);
+						usernameMenu->updateLayout();
+						m_fields->icon->setPositionY(m_fields->icon->getPositionY() - 1);
+					}
 				}
 			}
 		}
