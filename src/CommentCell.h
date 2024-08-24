@@ -7,4 +7,5 @@ using namespace geode::prelude;
 
 extern std::set<std::string> YouTubers;
 
-void download_list();
+void downloadYT();
+void downloadTwitch();

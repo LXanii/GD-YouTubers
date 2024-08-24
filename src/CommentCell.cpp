@@ -7,13 +7,17 @@
 
 using namespace geode::prelude;
 
-bool downloaded = false;
-std::set<std::string> YouTubers;
-EventListener<web::WebTask> m_listener;
+bool ytdownload = false;
+bool twitchdownload = false;
 
-void download_list() {
+std::set<std::string> YouTubers;
+std::set<std::string> Streamers;
+EventListener<web::WebTask> m_listener;
+EventListener<web::WebTask> m_listener1;
+
+void downloadYT() {
 	
-	if (!downloaded) {
+	if (!ytdownload) {
 
 		m_listener.bind([] (web::WebTask::Event* e) {
             if (web::WebResponse* res = e->getValue()) {
@@ -25,7 +29,7 @@ void download_list() {
 				while (iss >> temp_string) {
 					YouTubers.insert(temp_string);
 				}
-				downloaded = true;
+				ytdownload = true;
 				log::debug("Download Complete [{} Found].", YouTubers.size());
 
             } else if (e->isCancelled()) {
@@ -35,6 +39,33 @@ void download_list() {
 
         auto req = web::WebRequest();
         m_listener.setFilter(req.get("https://raw.githubusercontent.com/LXanii/GD-YouTubers/main/names.txt"));
+		}
+	}
+
+void downloadTwitch() {
+	
+	if (!twitchdownload) {
+
+		m_listener1.bind([] (web::WebTask::Event* e) {
+            if (web::WebResponse* res = e->getValue()) {
+				auto data = res->string().unwrapOr("eee"); // wowzers found whats printing
+				log::debug("Attempting to download Streamer List..");
+				std::istringstream iss(data);
+				std::string temp_string;
+
+				while (iss >> temp_string) {
+					Streamers.insert(temp_string);
+				}
+				twitchdownload = true;
+				log::debug("Download Complete [{} Found].", Streamers.size());
+
+            } else if (e->isCancelled()) {
+                log::info("Failed to fetch file from GitHub.");
+            }
+        });
+
+        auto req = web::WebRequest();
+        m_listener1.setFilter(req.get("https://raw.githubusercontent.com/LXanii/GD-YouTubers/main/streamers.txt"));
 		}
 	}
 

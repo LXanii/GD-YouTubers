@@ -7,6 +7,7 @@
 
 using namespace geode::prelude;
 extern std::set<std::string> YouTubers;
+extern std::set<std::string> Streamers;
 
 class YouTuberLayer : public geode::Popup<> {
 
@@ -19,6 +20,7 @@ public:
     void searchPlayer(CCObject*);
     void openDiscord(CCObject*);
     void openRepo(CCObject*);
+    void request(CCObject*);
 
 private:
     bool setup() override;
@@ -28,12 +30,35 @@ bool YouTuberLayer::setup() {
 
     auto screenSize = CCDirector::sharedDirector()->getWinSize();
     auto mainLayer = static_cast<CCLayer*>(this->getChildren()->objectAtIndex(0));
-    CCLabelBMFont* ytText = CCLabelBMFont::create(fmt::format("Youtubers ({})", YouTubers.size()).c_str(), "goldFont.fnt");
-    CCLabelBMFont* infoText = CCLabelBMFont::create("List downloaded from the GitHub Repo*", "chatFont.fnt");
+    CCLabelBMFont* ytText = CCLabelBMFont::create("YouTubers", "goldFont.fnt");
+    CCLabelBMFont* infoText = CCLabelBMFont::create(fmt::format("List downloaded from GitHub* ({})", YouTubers.size()).c_str(), "chatFont.fnt");
     infoText->setOpacity(125);
-    infoText->setScale(0.65);
+    infoText->setScale(0.55);
     CCScale9Sprite* namesBG = CCScale9Sprite::create("square02_001-uhd.png");
     namesBG->setContentSize(CCSize(227, 212));
+
+    auto reqbtnBG = CCScale9Sprite::create("GJ_button_04-uhd.png");
+    CCLabelBMFont* reqText = CCLabelBMFont::create("Req", "bigFont.fnt");
+    reqText->setScale(0.5);
+    reqText->setPosition({21, 14});
+    reqbtnBG->setContentSize({41.5, 25});
+    reqbtnBG->addChild(reqText);
+    //reqText->setPosition({reqbtnBG->getPositionX(), reqbtnBG->getPositionY()});
+    auto reqbtn = CCMenuItemSpriteExtra::create(reqbtnBG, this, menu_selector(YouTuberLayer::request));
+    CCMenu* bottomMenu = CCMenu::create();
+
+    bottomMenu->setScale(0.8);
+    bottomMenu->setID("bottom-menu");
+
+    bottomMenu->setLayout(
+        RowLayout::create()
+        ->setGap(5.f)
+        ->setAutoScale(true)
+        ->setAxisAlignment(AxisAlignment::Start)
+    );
+
+    bottomMenu->addChild(reqbtn);
+    bottomMenu->updateLayout();
 
     CCMenu* rightSide = CCMenu::create();
     rightSide->setID("right-side-menu");
@@ -44,6 +69,7 @@ bool YouTuberLayer::setup() {
         ->setAutoScale(false)
         ->setAxisAlignment(AxisAlignment::End)
     );
+
 
     CCSprite* discordSprite = CCSprite::createWithSpriteFrameName("gj_discordIcon_001.png");
     CCSprite* githubSprite = CCSprite::create("githubBtn.png"_spr);
@@ -87,6 +113,7 @@ bool YouTuberLayer::setup() {
     ytText->setPosition({screenSize.width / 2 - 130, screenSize.height / 2 + 97}); // weird placements cuz of initAnchored thanks
     infoText->setPosition({screenSize.width / 2 - 130, screenSize.height / 2 - 143});
     namesBG->setPosition({screenSize.width / 2 - 130, screenSize.height / 2 - 27});
+    bottomMenu->setPosition({bottomMenu->getPositionX() - 50,infoText->getPositionY()});
     namesBG->setOpacity(80);
 
     mainLayer->addChild(ytText);
@@ -94,6 +121,7 @@ bool YouTuberLayer::setup() {
     mainLayer->addChild(ytNames, 1);
     mainLayer->addChild(namesBG);
     mainLayer->addChild(rightSide);
+    mainLayer->addChild(bottomMenu);
     return true;
 };
 
@@ -112,6 +140,10 @@ void YouTuberLayer::openDiscord(CCObject*) {
 
 void YouTuberLayer::openRepo(CCObject*) {
     geode::utils::web::openLinkInBrowser("https://github.com/LXanii/GD-YouTubers/blob/main/names.txt");
+};
+
+void YouTuberLayer::request(CCObject*) {
+    FLAlertLayer::create("Request YouTubers", "Join the <cb>Discord Server</c> to recommend YouTubers!", "OK")->show();
 };
 
 YouTuberLayer* YouTuberLayer::create() {

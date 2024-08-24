@@ -146,7 +146,6 @@ Luqualizer
 Skullo
 MetalFace221
 MetaManZ
-LeslieDB
 SPRITEGS
 RpgRaketti
 DoSh7t
