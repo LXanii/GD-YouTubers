@@ -81,8 +81,8 @@ class $modify(CommentCell) {
 
 		CommentCell::loadFromComment(comment);
 		CCLayer* layer = static_cast<CCLayer*>(getChildren()->objectAtIndex(1));
-		CCLabelBMFont* player_comment_small = static_cast<CCLabelBMFont*>(layer->getChildByID("comment-text-label"));
-		CCLabelBMFont* player_comment_big_area = static_cast<CCLabelBMFont*>(layer->getChildByID("comment-text-area"));
+		CCLabelBMFont* player_comment_small = static_cast<CCLabelBMFont*>(layer->getChildByIDRecursive("comment-text-label"));
+		CCLabelBMFont* player_comment_big_area = static_cast<CCLabelBMFont*>(layer->getChildByIDRecursive("comment-text-area"));
 
 		CCDirector* director = CCDirector::get();
 		CCScene* scene = director->getRunningScene();
@@ -101,11 +101,12 @@ class $modify(CommentCell) {
 
 			lower_player_name.erase(remove_if(lower_player_name.begin(), lower_player_name.end(), isspace), lower_player_name.end());
 			if (lower_names == lower_player_name) {
-
+				
 				if (player_comment_small || player_comment_big_area) {
 
 					CCNode* last_letter;
 					m_fields->badge = CCSprite::create("youtuber.png"_spr);
+					m_fields->badge->setID("xanii.gd-youtubers/yt-badge");
 
 					m_fields->badge->setScale(0.54);
 
@@ -129,9 +130,9 @@ class $modify(CommentCell) {
 					}
 					else m_fields->badge_x_pos = 14.f;
 
-					if (layer->getChildByID("username-label")) {
+					if (layer->getChildByIDRecursive("username-label")) {
 
-						CCLabelBMFont* username_btn = static_cast<CCLabelBMFont*>(layer->getChildByID("username-label"));
+						CCLabelBMFont* username_btn = static_cast<CCLabelBMFont*>(layer->getChildByIDRecursive("username-label"));
 						
 						m_fields->badge->setPosition(username_btn->convertToWorldSpace(username_btn->getContentSize()));
 						
@@ -142,12 +143,10 @@ class $modify(CommentCell) {
 						else {
 							m_fields->badge->setPosition({m_fields->badge->getPositionX() + 8.425f + m_fields->badge_x_pos, m_fields->badge->getPositionY() - 8.5f});
 						}
-						
-						this->addChild(m_fields->badge);
 
-						if (layer->getChildByID("percentage-label")) {
+						if (layer->getChildByIDRecursive("percentage-label")) {
 
-							CCLabelBMFont* percent = static_cast<CCLabelBMFont*>(layer->getChildByID("percentage-label"));
+							CCLabelBMFont* percent = static_cast<CCLabelBMFont*>(layer->getChildByIDRecursive("percentage-label"));
 							percent->setPositionX(percent->getPositionX() + 15);
 						}
 
@@ -155,27 +154,30 @@ class $modify(CommentCell) {
 							m_fields->badge_x_pos = 107.f;
 						}
 
+						this->addChild(m_fields->badge);
+
 					}
 					else {
 
-						CCMenu* main_menu = static_cast<CCMenu*>(layer->getChildByID("main-menu"));
-						CCMenuItemSpriteExtra* username_btn = static_cast<CCMenuItemSpriteExtra*>(main_menu->getChildByID("username-button"));
+						CCMenu* main_menu = static_cast<CCMenu*>(layer->getChildByIDRecursive("main-menu"));
+						CCMenuItemSpriteExtra* username_btn = static_cast<CCMenuItemSpriteExtra*>(main_menu->getChildByIDRecursive("username-button"));
 						CCLabelBMFont* name_label = static_cast<CCLabelBMFont*>(username_btn->getChildren()->objectAtIndex(0));
 
-						if (layer->getChildByID("percentage-label")) {
+						if (layer->getChildByIDRecursive("percentage-label")) {
 
-							CCLabelBMFont* percent = static_cast<CCLabelBMFont*>(layer->getChildByID("percentage-label"));
+							CCLabelBMFont* percent = static_cast<CCLabelBMFont*>(layer->getChildByIDRecursive("percentage-label"));
 							if (!player_comment_big_area) percent->setPositionX(percent->getPositionX() + 15);
 							else percent->setPositionX(percent->getPositionX() + 22);
 						}
 
 						if (static_cast<CCSprite*>(layer->getChildren()->objectAtIndex(2))) {
 							if (m_comment->m_modBadge > 0) {
-								CCSprite* mod_btn = static_cast<CCSprite*>(layer->getChildren()->objectAtIndex(2));
+								auto mod_btn = layer->getChildByIDRecursive("mod-badge");
 								mod_btn->setVisible(false);
 
 								m_fields->badge_mod = CCSprite::createWithSpriteFrameName(fmt::format("modBadge_0{}_001.png", m_comment->m_modBadge).c_str());
 								m_fields->badge_mod->setPosition(username_btn->getContentSize());
+								m_fields->badge_mod->setID("xanii.gd-youtubers/mod-badge");
 								if (player_comment_big_area) {
 									m_fields->badge_mod->setScale(0.75);
 									m_fields->badge_mod->setPosition({m_fields->badge_mod->getPositionX() + 12, m_fields->badge_mod->getPositionY() - 10.f});
@@ -186,6 +188,7 @@ class $modify(CommentCell) {
 									m_fields->badge_mod->setPosition({m_fields->badge_mod->getPositionX() + 8, m_fields->badge_mod->getPositionY() - 7.5f});
 									username_btn->addChild(m_fields->badge_mod);
 								}
+								m_fields->badge_mod->setPositionY(m_fields->badge_mod->getPositionY() + 4);
 							}
 
 						} 
@@ -198,6 +201,7 @@ class $modify(CommentCell) {
 							if (m_comment->m_modBadge >= 1) {
 								m_fields->badge->setPositionX(m_fields->badge->getPositionX() + 8.5f);
 							}
+							m_fields->badge->setPositionY(m_fields->badge->getPositionY() + 4);
 							username_btn->addChild(m_fields->badge);
 						}
 						else {
@@ -206,6 +210,7 @@ class $modify(CommentCell) {
 							m_fields->badge->setPosition({m_fields->badge->getPositionX() + 11.425f + m_fields->badge_x_pos, m_fields->badge->getPositionY() - 8.f});
 							username_btn->addChild(m_fields->badge);
 						}
+						m_fields->badge->setPositionY(m_fields->badge->getPositionY() + 4);
 					}
 				}
 			}	

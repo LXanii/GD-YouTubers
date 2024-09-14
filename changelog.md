@@ -1,3 +1,10 @@
+# Version 1.1.1
+
+- Added a new badge (Unobtailable as of now)
+- Added a request button to the youtuber list to make it easier to request
+- Fixed crash regarding new node ids update
+- Updated the system to grab names
+
 # Version 1.1.0
 
 - Added brand new YouTubers Menu

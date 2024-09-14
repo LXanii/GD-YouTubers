@@ -134,7 +134,7 @@ void YouTuberLayer::searchPlayer(CCObject* sender) {
 };
 
 void YouTuberLayer::openDiscord(CCObject*) {
-    geode::createQuickPopup("Join Discord", "Suggest <cr>YouTubers to add</c> in the Discord Server!", "NO", "OK", [] (auto fl, bool btn2) {
+    geode::createQuickPopup("Join Discord", "Would you like to join the <cb>Discord Server</c>?", "NO", "OK", [] (auto fl, bool btn2) {
                 if (btn2) geode::utils::web::openLinkInBrowser("https://discord.gg/W3BkznGTV8");});
 };
 
@@ -143,7 +143,8 @@ void YouTuberLayer::openRepo(CCObject*) {
 };
 
 void YouTuberLayer::request(CCObject*) {
-    FLAlertLayer::create("Request YouTubers", "Join the <cb>Discord Server</c> to recommend YouTubers!", "OK")->show();
+    geode::createQuickPopup("Request YouTubers", "Join the <cb>Discord Server</c> to recommend YouTubers!\n(#Suggestions Channel)", "NO", "OK", [] (auto fl, bool btn2) {
+                if (btn2) geode::utils::web::openLinkInBrowser("https://discord.gg/W3BkznGTV8");});
 };
 
 YouTuberLayer* YouTuberLayer::create() {

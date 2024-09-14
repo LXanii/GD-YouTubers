@@ -8,6 +8,8 @@
 
 extern bool ytdownload;
 extern bool twitchdownload;
+bool isyt = false;
+bool istwitch = false;
 
 using namespace geode::prelude;
 
@@ -47,7 +49,8 @@ class $modify(YouTuberAlert, ProfilePage) {
 
 	struct Fields {
 		CCSprite * badge;
-		CCMenuItemSpriteExtra* icon;
+		CCMenuItemSpriteExtra* yticon;
+		CCMenuItemSpriteExtra* twitchicon;
 		bool is_mod;
 		std::string player_name;
 	};
@@ -59,6 +62,8 @@ class $modify(YouTuberAlert, ProfilePage) {
 		auto size = director->getWinSize();
 		auto mainLayer = static_cast<CCLayer*>(this->getChildren()->objectAtIndex(0));
 		auto usernameMenu = mainLayer->getChildByID("username-menu");
+		istwitch = false;
+		isyt = false;
 
 		downloadYT();
 		downloadTwitch();
@@ -83,19 +88,20 @@ class $modify(YouTuberAlert, ProfilePage) {
 				}
 				lower_player_name.erase(remove_if(lower_player_name.begin(), lower_player_name.end(), isspace), lower_player_name.end());
 				if (lower_names == lower_player_name) {
+					isyt = true;
 					auto mainLayer = static_cast<CCLayer*>(this->getChildren()->objectAtIndex(0));
 					auto usernameMenu = mainLayer->getChildByID("username-menu");
 
 					m_fields->badge = CCSprite::create("youtuber.png"_spr);
 					m_fields->badge->setScale(0.95);
 					
-					m_fields->icon = CCMenuItemSpriteExtra::create(m_fields->badge, this, menu_selector(YouTuberAlert::found_youtube));
-					m_fields->icon->setID("xanii.youtubers/YouTube-Badge");
+					m_fields->yticon = CCMenuItemSpriteExtra::create(m_fields->badge, this, menu_selector(YouTuberAlert::found_youtube));
+					m_fields->yticon->setID("xanii.gd-youtubers/YouTube-Badge");
 
-					if (!static_cast<CCMenu*>(usernameMenu->getChildByID("xanii.youtubers/YouTube-Badge"))) {
-						usernameMenu->addChild(m_fields->icon);
+					if (!static_cast<CCMenu*>(usernameMenu->getChildByID("xanii.gd-youtubers/YouTube-Badge"))) {
+						usernameMenu->addChild(m_fields->yticon);
 						usernameMenu->updateLayout();
-						m_fields->icon->setPositionY(m_fields->icon->getPositionY() - 1);
+						m_fields->yticon->setPositionY(m_fields->yticon->getPositionY() - 1);
 					}
 				}
 			}
@@ -112,19 +118,20 @@ class $modify(YouTuberAlert, ProfilePage) {
 				}
 				lower_player_name.erase(remove_if(lower_player_name.begin(), lower_player_name.end(), isspace), lower_player_name.end());
 				if (lower_names == lower_player_name) {
+					istwitch = true;
 					auto mainLayer = static_cast<CCLayer*>(this->getChildren()->objectAtIndex(0));
 					auto usernameMenu = mainLayer->getChildByID("username-menu");
 
 					m_fields->badge = CCSprite::create("twitch.png"_spr);
 					m_fields->badge->setScale(0.95);
 					
-					m_fields->icon = CCMenuItemSpriteExtra::create(m_fields->badge, this, menu_selector(YouTuberAlert::found_streamer));
-					m_fields->icon->setID("xanii.youtubers/Twitch-Badge");
+					m_fields->twitchicon = CCMenuItemSpriteExtra::create(m_fields->badge, this, menu_selector(YouTuberAlert::found_streamer));
+					m_fields->twitchicon->setID("xanii.gd-youtubers/Twitch-Badge");
 
-					if (!static_cast<CCMenu*>(usernameMenu->getChildByID("xanii.youtubers/Twitch-Badge"))) {
-						usernameMenu->addChild(m_fields->icon);
+					if (!static_cast<CCMenu*>(usernameMenu->getChildByID("xanii.gd-youtubers/Twitch-Badge"))) {
+						usernameMenu->addChild(m_fields->twitchicon);
 						usernameMenu->updateLayout();
-						m_fields->icon->setPositionY(m_fields->icon->getPositionY() - 1);
+						m_fields->twitchicon->setPositionY(m_fields->twitchicon->getPositionY() - 1);
 					}
 				}
 			}
@@ -133,13 +140,16 @@ class $modify(YouTuberAlert, ProfilePage) {
 
 	void found_youtube(CCObject*) {
 		FLAlertLayer::create("Youtuber Found!","This user is a <cr>prominent member</c> of the <cy>Geometry Dash</c> Community!","OK")->show();
-		if (m_fields->is_mod) m_fields->icon->setScale(m_usernameLabel->getScale() + 0.05f);
-		else m_fields->icon->setScale(m_usernameLabel->getScale() + 0.1f);
+		if (m_fields->is_mod) m_fields->yticon->setScale(m_usernameLabel->getScale() + 0.05f);
+		else m_fields->yticon->setScale(m_usernameLabel->getScale() + 0.1f);
 	}
 
 	void found_streamer(CCObject*) {
 		FLAlertLayer::create("Streamer Found!","This user is a <cr>prominent member</c> of the <cy>Geometry Dash</c> Community!","OK")->show();
-		if (m_fields->is_mod) m_fields->icon->setScale(m_usernameLabel->getScale() + 0.05f);
-		else m_fields->icon->setScale(m_usernameLabel->getScale() + 0.1f);
+		if (m_fields->is_mod) m_fields->twitchicon->setScale(m_usernameLabel->getScale() + 0.05f);
+		else {
+			if (isyt && istwitch) m_fields->twitchicon->setScale(m_usernameLabel->getScale() + 0.2f);
+			else m_fields->twitchicon->setScale(m_usernameLabel->getScale() + 0.1f);
+		}
 	}
 };
