@@ -1,5 +1,5 @@
 {
-	"geode": "3.2.0",
+	"geode": "3.7.1",
 	"gd": {
 		"win": "2.206",
 		"android": "2.206",
@@ -14,13 +14,6 @@
             "id": "geode.node-ids",
             "version": ">=v1.14.0",
             "importance": "required"
-        }
-    ],
-	"incompatibilities": [
-        {
-            "id": "cdc.statuses",
-            "importance": "breaking",
-            "version": "*"
         }
     ],
 	"repository": "https://github.com/LXanii/GD-YouTubers/tree/main",
